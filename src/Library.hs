@@ -49,6 +49,8 @@ esRimaAsonante p1 p2 =
 esRimaConsonante :: Palabra -> Palabra -> Bool
 esRimaConsonante = cumplen ultimasTresLetras coincidenUltimasTresLetras 
 
+esRima :: Palabra -> Palabra -> Bool 
+esRima p1 p2 = esRimaAsonante p1 p2 || esRimaConsonante p1 p2
 {-
 Las clases de equivalencia son
   - Dos palabras riman por rima asonante
@@ -56,3 +58,19 @@ Las clases de equivalencia son
   - Dos palabras iguales no riman
   - Dos palabras sin conexion no riman
 -}
+
+--Punto 2
+ultimaPalabraDeVerso :: Verso -> Palabra
+ultimaPalabraDeVerso = last . words
+
+primerPalabraDeVerso :: Verso -> Palabra
+primerPalabraDeVerso = head . words
+
+esAnadiplosis :: Verso -> Verso -> Bool
+esAnadiplosis v1 v2 = ultimaPalabraDeVerso v1 == primerPalabraDeVerso v2
+
+conjugacionPorMedioDeRimas :: Verso -> Verso -> Bool
+conjugacionPorMedioDeRimas = cumplen ultimaPalabraDeVerso esRima
+
+conjugacionHaciendoAnadiplosis :: Verso -> Verso -> Bool
+conjugacionHaciendoAnadiplosis = esAnadiplosis
