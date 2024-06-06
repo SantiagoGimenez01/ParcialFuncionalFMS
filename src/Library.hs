@@ -155,3 +155,33 @@ hardcore = patronCombinaDos patronCadena patronEsdrujula
     esos 4 versos, arrojara el resultado y listo. Esto lo hace gracias a que trabaja con lazy evaluation, donde no necesita
     evualuar todo, sino solamente lo necesario.
 -}
+
+--Punto 4
+data Puesta = UnaPuesta{
+    publicoExaltado :: Bool,
+    potencia :: Number,
+    estrofa :: Estrofa,
+    artista :: Artista
+}deriving(Show, Eq)
+
+type Estilo = Puesta -> Puesta
+
+type Efectividad = Bool
+
+puestaBase :: Puesta
+puestaBase = UnaPuesta False 1 [] ""
+
+gritar :: Estilo
+gritar puesta = puesta{potencia = potencia puesta * 1.5}
+
+responderUnAcote :: Efectividad -> Estilo
+responderUnAcote efectividad puesta = puesta{potencia = potencia puesta * 1.2, publicoExaltado = efectividad}
+
+seguirPatron :: Puesta -> Patron -> Bool
+seguirPatron puesta patron = (patron . estrofa) puesta
+
+tirarTecnicas :: Patron -> Estilo
+tirarTecnicas patron puesta = puesta{potencia = potencia puesta * 1.1, publicoExaltado = seguirPatron puesta patron} 
+
+tirarFreestyle :: Puesta -> Artista -> Estrofa -> Estilo -> Puesta
+tirarFreestyle puesta artista estrofa estilo = estilo puesta{artista = artista, estrofa = estrofa}
