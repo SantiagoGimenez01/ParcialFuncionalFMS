@@ -185,3 +185,31 @@ tirarTecnicas patron puesta = puesta{potencia = potencia puesta * 1.1, publicoEx
 
 tirarFreestyle :: Puesta -> Artista -> Estrofa -> Estilo -> Puesta
 tirarFreestyle puesta artista estrofa estilo = estilo puesta{artista = artista, estrofa = estrofa}
+
+--Punto 5
+type Condicion = Puesta -> (Bool, Number)
+type Jurado = Puesta -> [Condicion] -> Number
+
+freestyleCumpleConAabb :: Condicion
+freestyleCumpleConAabb puesta = ((aabb . estrofa) puesta, 0.5)
+    
+patronSimpEsdru :: Condicion
+patronSimpEsdru puesta = ((patronCombinaDos patronEsdrujula (patronSimple(1,4)) . estrofa) puesta, 1)
+
+publicoEstaExaltado :: Condicion
+publicoEstaExaltado puesta = (publicoExaltado puesta, 1)
+
+criterioPotencia :: Condicion
+criterioPotencia puesta = (potencia puesta > 1.5 , 2)
+ {-
+alToke :: Puesta -> Jurado -> Number
+alToke _ [] = 0
+alToke puesta (x:xs)
+    | fst x puesta = snd x + alToke puesta xs
+    | otherwise = alToke puesta xs
+
+-}
+
+
+
+
